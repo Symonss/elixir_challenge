@@ -14,14 +14,23 @@ defmodule Challenge do
   """
   def fetch do
     HTTPoison.start
-    result = HTTPoison.get!("https://jsonplaceholder.typicode.com/todos/1")
+    try do
+    result = HTTPoison.get!("htps://jsonplaceholder.typicode.com/todos/1")
     JSON.decode(result.body) |> elem(1)
+    rescue
+      IO.puts "error"
+    e in RuntimeError -> IO.puts("An error occurred: " <> e.message)
+    end
+
+
+
   end
 
   def display do
 
     result = fetch()
     IO.puts  "title: " <> result["title"]
+    IO.puts  ~s( Status:  #{result["completed"]},)
 
   end
 end
